@@ -1,0 +1,37 @@
+import { NextRequest } from 'next/server';
+import { db } from '@/lib/db';
+import { ok, bad, parseBody } from '@/lib/api';
+import { extractInvoice, matchMedicine } from '@/lib/gemma';
+
+export const dynamic = 'force-dynamic';
+
+export async function POST(req: NextRequest) {
+  const data = await parseBody<{ image?: string }>(req);
+
+  try {
+    const result = await extractInvoice(data?.image);
+    const store = db();
+
+    const matched = result.items.map((line) => {
+      const { exactMatch, candidates } = matchMedicine(store.medicines, line);
+      return {
+        ...line,
+        exactMatch,
+        candidates,
+      };
+    });
+
+    return ok({
+      supplier: result.supplier,
+      items: matched,
+      mock: result.mock,
+      model: result.model,
+    });
+  } catch (err) {
+    console.error('Invoice extraction failed:', err);
+    return bad(
+      `AI Invoice reading failed: ${err instanceof Error ? err.message : 'Unknown error'}`,
+      502
+    );
+  }
+}
