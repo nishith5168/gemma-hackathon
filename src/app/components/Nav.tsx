@@ -88,17 +88,12 @@ export function Nav() {
           {/* Brand */}
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-9 h-9 rounded-lg bg-[#005691] flex items-center justify-center text-white font-bold shadow-xs transition group-hover:bg-[#004373]">
-                <Activity className="w-5 h-5" />
+              <div className="w-8 h-8 rounded-lg bg-[#005691] flex items-center justify-center text-white font-bold shadow-xs transition group-hover:bg-[#004373]">
+                <Activity className="w-4 h-4" />
               </div>
-              <div>
-                <span className="text-lg font-bold tracking-tight text-slate-900 flex items-center gap-1.5">
-                  MedSignal <span className="text-[#005691]">LK</span>
-                </span>
-                <span className="hidden sm:block text-[10px] text-slate-500 font-medium">
-                  Connecting Patients • Pharmacies • Early-Warning
-                </span>
-              </div>
+              <span className="text-base font-bold tracking-tight text-slate-900">
+                MedSignal <span className="text-[#005691]">LK</span>
+              </span>
             </Link>
           </div>
 
@@ -117,7 +112,7 @@ export function Nav() {
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-[#005691]' : 'text-slate-400'}`} />
                   {link.label}
                 </Link>
               );

@@ -50,11 +50,11 @@ export function useSession() {
   }, []);
 
   const updateRole = (role: Role) => {
-    let user = session.user;
-    if (role === 'patient') user = 'Sunil Perera (Patient)';
-    else if (role === 'pharmacist') user = 'Pharmacist (Lotus Care)';
-    else if (role === 'analyst') user = 'Dr. K. Jayasuriya (NMRA Analyst)';
-    else if (role === 'admin') user = 'Admin User';
+    let user = 'Sunil Perera';
+    if (role === 'patient') user = 'Sunil Perera';
+    else if (role === 'pharmacist') user = 'Lotus Care Pharmacist';
+    else if (role === 'analyst') user = 'Dr. K. Jayasuriya';
+    else if (role === 'admin') user = 'Admin';
 
     const next: UserSession = {
       ...session,
