@@ -124,29 +124,8 @@ export function Nav() {
             })}
           </nav>
 
-          {/* Right Controls: AI status & Demo Role Switcher */}
+          {/* Right Controls: Role Switcher */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* AI Status Badge */}
-            <div
-              className={`hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${
-                aiStatus.live
-                  ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                  : 'bg-amber-50 text-amber-800 border-amber-200'
-              }`}
-              title={
-                aiStatus.live
-                  ? `Connected to Google AI Studio (${aiStatus.model})`
-                  : 'Running in deterministic MOCK fallback mode'
-              }
-            >
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  aiStatus.live ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'
-                }`}
-              />
-              <Sparkles className="w-3 h-3" />
-              <span>{aiStatus.live ? 'Gemma 4 (live)' : 'AI: MOCK mode'}</span>
-            </div>
 
             {/* Pharmacist Pharmacy Selector */}
             {session.role === 'pharmacist' && (

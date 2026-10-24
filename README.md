@@ -189,8 +189,15 @@ The deterministic shortage engine in `src/lib/forecast.ts` executes entirely ser
 
 ---
 
-## 10. AI-Assisted Development Disclosure
-This project was designed and built during the official Hack for Humanity Colombo Hack Day utilizing Google Antigravity paired with Gemini/Gemma models.
+## 10. Engineering Team & AI-Assisted Development Disclosure
+
+### Built by
+- **Nishith Siribaddana** — Full-Stack Architecture, Shortage Forecast Engine & Supabase Integration.
+- **Ramiru Wanigathunga** — AI & Frontend Engineering, Gemma 4 Multimodal Pipelines & UI Design System.
+- **Nishan Kumaratunga** — Systems & Data Engineering, Deterministic Simulation & Healthcare Compliance.
+
+### Development Disclosure
+This project was conceptualized, designed, and engineered during the official **Hack for Humanity Colombo Hack Day (MLH)** competing for the *Best Social Impact Web Platform* and *Gemma 4 Challenge*, utilizing Google Antigravity pair-programmed with Gemini/Gemma models.
 
 ---
 

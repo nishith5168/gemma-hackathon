@@ -13,6 +13,7 @@ import {
   TrendingDown,
   CheckCircle2,
   FileSearch,
+  Code2,
 } from 'lucide-react';
 import { useSession } from '@/lib/client';
 
@@ -27,11 +28,6 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Column: Brief & Narrative */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-50 text-[#005691] border border-sky-200">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Hack for Humanity • Gemma 4 Challenge</span>
-              </div>
-
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
                 Connecting Patients. <br />
                 Empowering Pharmacies. <br />
@@ -235,6 +231,62 @@ export default function LandingPage() {
               <span>• Audit Trail</span>
             </div>
           </Link>
+        </div>
+      </section>
+
+      {/* Engineering Team / Developer Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pt-6 border-t border-slate-200">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            Developed by
+          </h2>
+          <p className="text-xs text-slate-500">
+            Sri Lanka national medicine accessibility and predictive early-warning engineering team.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Nishith Siribaddana */}
+          <div className="card-network p-5 hover:border-[#005691] transition flex items-start gap-4">
+            <div className="w-11 h-11 rounded-lg bg-sky-50 border border-sky-100 flex items-center justify-center text-[#005691] font-bold text-sm flex-shrink-0">
+              NS
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-bold text-slate-900 text-sm">Nishith Siribaddana</h3>
+              <p className="text-[11px] font-mono text-[#005691] font-medium">Software Engineer</p>
+              <p className="text-xs text-slate-500 leading-relaxed pt-1">
+                Full-stack architecture, deterministic shortage forecasting engine, and Supabase integration.
+              </p>
+            </div>
+          </div>
+
+          {/* Ramiru Wanigathunga */}
+          <div className="card-network p-5 hover:border-[#005691] transition flex items-start gap-4">
+            <div className="w-11 h-11 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-sm flex-shrink-0">
+              RW
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-bold text-slate-900 text-sm">Ramiru Wanigathunga</h3>
+              <p className="text-[11px] font-mono text-emerald-700 font-medium">AI & Frontend Engineer</p>
+              <p className="text-xs text-slate-500 leading-relaxed pt-1">
+                Gemma 4 multimodal integration, vision OCR pipelines, and interactive UI systems.
+              </p>
+            </div>
+          </div>
+
+          {/* Nishan Kumaratunga */}
+          <div className="card-network p-5 hover:border-[#005691] transition flex items-start gap-4">
+            <div className="w-11 h-11 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 font-bold text-sm flex-shrink-0">
+              NK
+            </div>
+            <div className="space-y-1">
+              <h3 className="font-bold text-slate-900 text-sm">Nishan Kumaratunga</h3>
+              <p className="text-[11px] font-mono text-amber-700 font-medium">Systems & Data Engineer</p>
+              <p className="text-xs text-slate-500 leading-relaxed pt-1">
+                Domain data modeling, deterministic 30-day simulations, and healthcare compliance design.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </div>

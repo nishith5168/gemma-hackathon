@@ -31,7 +31,7 @@ export default function RootLayout({
                 </p>
               </div>
               <div className="text-[11px] text-slate-400">
-                Built for Hack for Humanity & Gemma 4 Challenge • Colombo Hack Day
+                Healthcare Systems • Sri Lanka
               </div>
             </div>
 
