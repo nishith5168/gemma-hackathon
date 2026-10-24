@@ -4,7 +4,6 @@ import { ok, requireRole } from '@/lib/api';
 import { allForecasts, RISK_ORDER } from '@/lib/forecast';
 import { RiskLevel } from '@/lib/types';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const guard = requireRole(req, ['analyst', 'admin']);

@@ -3,7 +3,6 @@ import { db, save, audit } from '@/lib/db';
 import { ok, bad, requireRole, who, parseBody } from '@/lib/api';
 import { Settings } from '@/lib/types';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const guard = requireRole(req, ['analyst', 'admin']);

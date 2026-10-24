@@ -3,7 +3,6 @@ import { db } from '@/lib/db';
 import { ok, bad, parseBody } from '@/lib/api';
 import { extractPrescription, matchMedicine } from '@/lib/gemma';
 
-export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   const data = await parseBody<{ image?: string }>(req);

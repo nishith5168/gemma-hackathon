@@ -2,7 +2,6 @@ import { NextRequest } from 'next/server';
 import { ok, requireRole, who } from '@/lib/api';
 import { runAnalysis } from '@/lib/ops';
 
-export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   const guard = requireRole(req, ['analyst', 'admin']);

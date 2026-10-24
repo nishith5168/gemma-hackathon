@@ -2,7 +2,6 @@ import { NextRequest } from 'next/server';
 import { db, medLabel } from '@/lib/db';
 import { ok, requireRole } from '@/lib/api';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const guard = requireRole(req, ['analyst', 'admin']);

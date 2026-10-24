@@ -3,7 +3,6 @@ import { db, save } from '@/lib/db';
 import { ok, bad, parseBody } from '@/lib/api';
 import { explainAlert } from '@/lib/gemma';
 
-export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   const data = await parseBody<{

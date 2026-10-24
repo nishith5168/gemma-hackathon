@@ -2,7 +2,6 @@ import { NextRequest } from 'next/server';
 import { db, save } from '@/lib/db';
 import { ok, bad, parseBody } from '@/lib/api';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

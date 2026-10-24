@@ -3,7 +3,6 @@ import { resetDb } from '@/lib/db';
 import { ok, bad, requireRole, who, parseBody } from '@/lib/api';
 import { simulateSurge } from '@/lib/ops';
 
-export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   const guard = requireRole(req, ['analyst', 'admin']);

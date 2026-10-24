@@ -2,7 +2,6 @@ import { NextRequest } from 'next/server';
 import { db, save, notify, audit } from '@/lib/db';
 import { ok, bad, requireRole, who, parseBody } from '@/lib/api';
 
-export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
   const guard = requireRole(req, ['admin']);

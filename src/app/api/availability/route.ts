@@ -3,7 +3,6 @@ import { db, isFresh } from '@/lib/db';
 import { ok, bad } from '@/lib/api';
 import { stockBand } from '@/lib/ops';
 
-export const dynamic = 'force-dynamic';
 
 function haversineKm(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371; // Earth radius in km

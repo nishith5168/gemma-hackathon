@@ -2,7 +2,6 @@ import { NextRequest } from 'next/server';
 import { db, save, nowIso, notify, audit, medLabel } from '@/lib/db';
 import { ok, bad, who, parseBody, requirePharmacy } from '@/lib/api';
 
-export const dynamic = 'force-dynamic';
 
 export async function PATCH(
   req: NextRequest,

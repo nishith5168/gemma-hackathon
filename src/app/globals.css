@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --primary: #005691;
+    --primary-hover: #004575;
+    --dark-surface: #333333;
+    --light-surface: #FFFFFF;
+    --neutral-border: #E2E8F0;
+    --accent: #FFA500;
+    --success: #00FF00;
+    --font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #1e293b;
+    background-color: #f8fafc;
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+  }
+
+  code, pre {
+    font-family: var(--font-mono);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Custom UI Utility Styles following DESIGN.md */
+.btn-primary {
+  background-color: #005691;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: #004373;
+  box-shadow: 0 4px 12px rgba(0, 86, 145, 0.2);
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #005691;
+  border: 1.5px solid #005691;
+  font-weight: 600;
+  padding: 0.5625rem 1.25rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: #f0f7fc;
+}
+
+.card-network {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.badge-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-width: 1px;
 }

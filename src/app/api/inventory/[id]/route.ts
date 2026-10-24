@@ -3,7 +3,6 @@ import { db, save, uid, nowIso, audit, medLabel } from '@/lib/db';
 import { ok, bad, requirePharmacy, who, parseBody } from '@/lib/api';
 import { HistoryReason } from '@/lib/types';
 
-export const dynamic = 'force-dynamic';
 
 export async function PATCH(
   req: NextRequest,

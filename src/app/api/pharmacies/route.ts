@@ -4,7 +4,6 @@ import { ok, bad, who, parseBody } from '@/lib/api';
 import { Pharmacy } from '@/lib/types';
 import { PROVINCE_MAP } from '@/lib/seed';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

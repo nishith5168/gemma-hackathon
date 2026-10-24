@@ -4,7 +4,6 @@ import { ok, bad, requirePharmacy, who, parseBody } from '@/lib/api';
 import { stockBand } from '@/lib/ops';
 import { InventoryItem } from '@/lib/types';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

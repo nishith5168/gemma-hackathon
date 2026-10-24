@@ -3,7 +3,6 @@ import { db, save, uid, nowIso, audit } from '@/lib/db';
 import { ok, bad, requireRole, who, parseBody } from '@/lib/api';
 import { Medicine } from '@/lib/types';
 
-export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
