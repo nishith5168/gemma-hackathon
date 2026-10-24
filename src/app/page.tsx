@@ -81,40 +81,40 @@ export default function LandingPage() {
 
             {/* Right Column: Key Network Metric Card */}
             <div className="lg:col-span-5">
-              <div className="card-network p-6 sm:p-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl shadow-lg border border-slate-700 space-y-6">
-                <div className="flex items-center justify-between border-b border-slate-700/80 pb-4">
-                  <span className="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+              <div className="card-network p-6 sm:p-8 bg-sky-50/70 border border-sky-200 text-slate-800 rounded-xl shadow-xs space-y-6">
+                <div className="flex items-center justify-between border-b border-sky-100 pb-4">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#005691] flex items-center gap-1.5">
                     <Activity className="w-4 h-4" />
                     Network Feedback Loop
                   </span>
-                  <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
                     Live Engine
                   </span>
                 </div>
 
-                <div className="space-y-4 text-xs leading-relaxed text-slate-300">
-                  <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700">
-                    <strong className="text-white block text-sm mb-1">
+                <div className="space-y-4 text-xs leading-relaxed text-slate-600">
+                  <div className="p-3.5 rounded-lg bg-white border border-sky-100 shadow-2xs">
+                    <strong className="text-slate-900 block text-sm mb-1">
                       1. One Pharmacy Update
                     </strong>
                     When Lotus Care scans an invoice or logs dispensed stock, on-hand numbers update deterministically.
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700">
-                    <strong className="text-white block text-sm mb-1">
+                  <div className="p-3.5 rounded-lg bg-white border border-sky-100 shadow-2xs">
+                    <strong className="text-slate-900 block text-sm mb-1">
                       2. Patient Availability
                     </strong>
                     Nearby patients immediately see verified stock bands (In / Low / Out) and distance with honest timestamps.
                   </div>
-                  <div className="p-3 rounded-lg bg-slate-800/80 border border-slate-700">
-                    <strong className="text-white block text-sm mb-1">
+                  <div className="p-3.5 rounded-lg bg-white border border-sky-100 shadow-2xs">
+                    <strong className="text-slate-900 block text-sm mb-1">
                       3. National Early-Warning
                     </strong>
                     Holt’s smoothing projects depletion dates across districts. Gemma 4 explains risks in English, Sinhala, or Tamil.
                   </div>
                 </div>
 
-                <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-700/80">
-                  Current Session: <strong className="text-white capitalize">{session.role}</strong> ({session.user})
+                <div className="text-[11px] text-slate-500 pt-2 border-t border-sky-100">
+                  Current Session: <strong className="text-slate-800 capitalize">{session.role}</strong> ({session.user})
                 </div>
               </div>
             </div>
