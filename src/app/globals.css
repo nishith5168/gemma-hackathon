@@ -158,3 +158,19 @@
   font-weight: 600;
   border-width: 1px;
 }
+
+/* User GPS Marker pulse animation on map */
+@keyframes gpsRingPulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.6);
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}

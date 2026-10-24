@@ -50,11 +50,11 @@ export default function PatientPage() {
   const [selectedDistrict, setSelectedDistrict] = useState<string>('Colombo');
 
   // Location
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>({
-    lat: 6.9271,
-    lng: 79.8612,
-  });
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [locationGranted, setLocationGranted] = useState(false);
+  const [isLocating, setIsLocating] = useState(false);
   const [locationStatus, setLocationStatus] = useState<string | null>(null);
+  const [locationError, setLocationError] = useState(false);
 
   // Availability results
   const [availability, setAvailability] = useState<{
@@ -144,20 +144,70 @@ export default function PatientPage() {
   // Geolocation trigger
   const handleUseLocation = () => {
     if (!navigator.geolocation) {
-      setLocationStatus('Geolocation is not supported by your browser. Using Colombo Fort.');
-      setUserLocation({ lat: 6.9271, lng: 79.8612 });
+      setLocationStatus('Geolocation is not supported by your browser.');
+      setLocationError(true);
       return;
     }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        setLocationStatus('Using current GPS coordinates for distance calculation.');
-      },
-      (err) => {
-        setLocationStatus('Location access blocked. Using default Colombo coordinates.');
-        setUserLocation({ lat: 6.9271, lng: 79.8612 });
-      }
-    );
+
+    setIsLocating(true);
+    setLocationStatus('Requesting location access from browser...');
+    setLocationError(false);
+
+    const onSuccess = (pos: GeolocationPosition) => {
+      const lat = Number(pos.coords.latitude.toFixed(5));
+      const lng = Number(pos.coords.longitude.toFixed(5));
+      const acc = Math.round(pos.coords.accuracy);
+
+      setUserLocation({ lat, lng });
+      setLocationGranted(true);
+      setIsLocating(false);
+      setSelectedDistrict('ALL');
+      setLocationStatus(`Live location active (accurate to ~${acc}m). Showing nearest pharmacies.`);
+      setLocationError(false);
+    };
+
+    const onError = (err: GeolocationPositionError) => {
+      // If high accuracy failed, try standard accuracy once before reporting error
+      navigator.geolocation.getCurrentPosition(
+        onSuccess,
+        (fallbackErr) => {
+          setIsLocating(false);
+          setLocationError(true);
+          let msg = 'Could not retrieve your location.';
+          if (fallbackErr.code === fallbackErr.PERMISSION_DENIED) {
+            msg = 'Location permission was denied in your browser settings.';
+          } else if (fallbackErr.code === fallbackErr.POSITION_UNAVAILABLE) {
+            msg = 'Location information is currently unavailable.';
+          } else if (fallbackErr.code === fallbackErr.TIMEOUT) {
+            msg = 'Location request timed out. Please try again.';
+          }
+          setLocationStatus(msg);
+        },
+        { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 }
+      );
+    };
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+      enableHighAccuracy: true,
+      timeout: 8000,
+      maximumAge: 30000,
+    });
+  };
+
+  const handleSimulateLocation = (coords: { lat: number; lng: number; name: string }) => {
+    setUserLocation({ lat: coords.lat, lng: coords.lng });
+    setLocationGranted(true);
+    setSelectedDistrict('ALL');
+    setLocationStatus(`Testing with ${coords.name} coordinates.`);
+    setLocationError(false);
+  };
+
+  const handleClearLocation = () => {
+    setUserLocation(null);
+    setLocationGranted(false);
+    setLocationStatus(null);
+    setLocationError(false);
+    setSelectedDistrict('Colombo');
   };
 
   // Prescription Image Upload
@@ -320,23 +370,83 @@ export default function PatientPage() {
                 <option value="Kalutara">Kalutara</option>
                 <option value="Kandy">Kandy</option>
                 <option value="Galle">Galle</option>
+                <option value="Matara">Matara</option>
                 <option value="Jaffna">Jaffna</option>
                 <option value="Kurunegala">Kurunegala</option>
               </select>
 
               {/* Geolocation Button */}
-              <button
-                onClick={handleUseLocation}
-                className="btn-secondary text-xs py-2 px-3 whitespace-nowrap"
-                title="Sort pharmacies by distance from your current location"
-              >
-                <MapPin className="w-3.5 h-3.5" />
-                {t.useLocation}
-              </button>
+              {locationGranted ? (
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={handleUseLocation}
+                    disabled={isLocating}
+                    className="btn-primary text-xs py-2 px-3 whitespace-nowrap bg-emerald-700 hover:bg-emerald-800 border-emerald-700 flex items-center gap-1.5"
+                    title="Refresh GPS location"
+                  >
+                    {isLocating ? (
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                    )}
+                    <span>Location Active</span>
+                  </button>
+                  <button
+                    onClick={handleClearLocation}
+                    className="text-xs py-2 px-2.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition"
+                    title="Clear location filter"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleUseLocation}
+                  disabled={isLocating}
+                  className="btn-secondary text-xs py-2 px-3 whitespace-nowrap flex items-center gap-1.5"
+                  title="Sort pharmacies by distance from your current location"
+                >
+                  {isLocating ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#005691]" />
+                      <span>Locating...</span>
+                    </>
+                  ) : (
+                    <>
+                      <MapPin className="w-3.5 h-3.5 text-[#005691]" />
+                      <span>{t.useLocation}</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
 
             {locationStatus && (
-              <p className="text-[11px] text-slate-500">{locationStatus}</p>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] pt-1">
+                <span className={locationError ? 'text-amber-800 font-medium' : 'text-emerald-700 font-medium'}>
+                  {locationStatus}
+                </span>
+                {locationError && (
+                  <span className="flex items-center gap-1.5 text-slate-600">
+                    <span className="text-slate-400">·</span>
+                    <span>Test demo coordinates:</span>
+                    <button
+                      type="button"
+                      onClick={() => handleSimulateLocation({ lat: 6.9271, lng: 79.8612, name: 'Colombo Fort' })}
+                      className="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold underline"
+                    >
+                      Colombo Fort
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSimulateLocation({ lat: 7.2906, lng: 80.6337, name: 'Kandy' })}
+                      className="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold underline"
+                    >
+                      Kandy
+                    </button>
+                  </span>
+                )}
+              </div>
             )}
 
             {/* Exact Variant Chips */}
@@ -489,11 +599,19 @@ export default function PatientPage() {
         {/* Map View */}
         {availability && availability.results.length > 0 && (
           <div className="space-y-2">
-            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#005691]" />
-              Geographic Pharmacy Stock Map
-            </span>
-            <MapView pharmacies={availability.results} />
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-bold text-slate-700 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-[#005691]" />
+                Geographic Pharmacy Stock Map
+              </span>
+              {userLocation && (
+                <span className="text-[11px] text-[#005691] font-semibold flex items-center gap-1.5 bg-sky-50 px-2 py-0.5 rounded border border-sky-200">
+                  <span className="w-2 h-2 rounded-full bg-[#0284c7] animate-ping" />
+                  Your location shown on map
+                </span>
+              )}
+            </div>
+            <MapView pharmacies={availability.results} userLocation={userLocation} />
           </div>
         )}
 
