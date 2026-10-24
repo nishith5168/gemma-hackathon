@@ -19,7 +19,7 @@ import {
   Clock,
   Layers,
 } from 'lucide-react';
-import { useSession, api, ago, fileToDataUrl } from '@/lib/client';
+import { useSession, api, ago, fileToDataUrl, compressImageForOcr, OcrCompressionResult } from '@/lib/client';
 import { InventoryItem, Pharmacy, StockRequest, Replenishment, Medicine, HistoryRecord } from '@/lib/types';
 import { RiskBadge } from '../components/RiskBadge';
 
@@ -45,6 +45,7 @@ export default function PharmacyPage() {
 
   // Invoice scan state
   const [invoiceScanning, setInvoiceScanning] = useState(false);
+  const [invoiceCompression, setInvoiceCompression] = useState<OcrCompressionResult | null>(null);
   const [invoiceLines, setInvoiceLines] = useState<any[]>([]);
   const [supplierName, setSupplierName] = useState('SPC Colombo Distribution Hub');
 
@@ -195,17 +196,19 @@ export default function PharmacyPage() {
     }
   };
 
-  // Invoice OCR Scan
+  // Invoice OCR Scan with High-Efficiency OCR Compression
   const handleInvoiceUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setInvoiceScanning(true);
+    setInvoiceCompression(null);
     try {
-      const dataUrl = await fileToDataUrl(file);
+      const compressed = await compressImageForOcr(file, 1200, 0.72);
+      setInvoiceCompression(compressed);
       const res = await api<any>('/api/ai/invoice', {
         method: 'POST',
-        body: JSON.stringify({ image: dataUrl }),
+        body: JSON.stringify({ image: compressed.dataUrl }),
       });
       setInvoiceScanning(false);
       if (res.data) {
@@ -651,6 +654,24 @@ export default function PharmacyPage() {
               <div className="flex items-center justify-center gap-2 py-4 text-xs text-slate-600">
                 <RefreshCw className="w-4 h-4 animate-spin text-[#005691]" />
                 <span>Reading invoice items with Gemma 4...</span>
+              </div>
+            )}
+
+            {invoiceCompression && (
+              <div className="bg-sky-50/80 border border-sky-200 rounded-lg p-2.5 space-y-1 text-xs">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    OCR Compression Active
+                  </span>
+                  <span className="font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 px-1.5 py-0.5 rounded text-[10px]">
+                    {invoiceCompression.savedPercent}% bandwidth saved
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-600">
+                  <span>{invoiceCompression.originalSizeFormatted} → <strong>{invoiceCompression.compressedSizeFormatted}</strong></span>
+                  <span className="text-slate-400 font-mono text-[10px]">{invoiceCompression.dimensions.width}×{invoiceCompression.dimensions.height} · {invoiceCompression.durationMs}ms</span>
+                </div>
               </div>
             )}
 

@@ -16,7 +16,7 @@ import {
   FileText,
   Bookmark,
 } from 'lucide-react';
-import { api, fileToDataUrl, ago, useSession } from '@/lib/client';
+import { api, compressImageForOcr, OcrCompressionResult, ago, useSession } from '@/lib/client';
 import { Medicine, Pharmacy, StockRequest } from '@/lib/types';
 import { I18N, Language } from '@/lib/i18n';
 import { RiskBadge } from '../components/RiskBadge';
@@ -71,6 +71,7 @@ export default function PatientPage() {
 
   // Prescription AI Scan
   const [scanning, setScanning] = useState(false);
+  const [compressionInfo, setCompressionInfo] = useState<OcrCompressionResult | null>(null);
   const [scanResult, setScanResult] = useState<{
     items: {
       generic: string;
@@ -210,19 +211,23 @@ export default function PatientPage() {
     setSelectedDistrict('Colombo');
   };
 
-  // Prescription Image Upload
+  // Prescription Image Upload with High-Efficiency OCR Compression
   const handlePrescriptionUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setScanning(true);
     setScanResult(null);
+    setCompressionInfo(null);
 
     try {
-      const dataUrl = await fileToDataUrl(file);
+      // Compress image adaptively for optimal OCR readability while slashing payload size
+      const compressed = await compressImageForOcr(file, 1200, 0.72);
+      setCompressionInfo(compressed);
+
       const res = await api<any>('/api/ai/prescription', {
         method: 'POST',
-        body: JSON.stringify({ image: dataUrl }),
+        body: JSON.stringify({ image: compressed.dataUrl }),
       });
 
       setScanning(false);
@@ -515,6 +520,24 @@ export default function PatientPage() {
               <div className="flex items-center justify-center gap-2 py-3 text-xs text-slate-600 font-medium">
                 <RefreshCw className="w-4 h-4 animate-spin text-[#005691]" />
                 <span>{t.scanningGemma}</span>
+              </div>
+            )}
+
+            {compressionInfo && (
+              <div className="bg-white/90 border border-sky-200 rounded-lg p-2.5 space-y-1.5 text-xs shadow-2xs">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-bold text-slate-800 flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    OCR Compression Active
+                  </span>
+                  <span className="font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded text-[10px]">
+                    {compressionInfo.savedPercent}% bandwidth saved
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-600">
+                  <span>{compressionInfo.originalSizeFormatted} → <strong>{compressionInfo.compressedSizeFormatted}</strong></span>
+                  <span className="text-slate-400 font-mono text-[10px]">{compressionInfo.dimensions.width}×{compressionInfo.dimensions.height} · {compressionInfo.durationMs}ms</span>
+                </div>
               </div>
             )}
 
