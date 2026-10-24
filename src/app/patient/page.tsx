@@ -499,9 +499,23 @@ export default function PatientPage() {
 
         {/* Pharmacy Results Cards */}
         {loadingStock ? (
-          <div className="card-network p-12 text-center text-slate-500 flex flex-col items-center justify-center gap-3">
-            <RefreshCw className="w-6 h-6 animate-spin text-[#005691]" />
-            <span className="text-sm">Fetching verified inventory status...</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" aria-busy="true">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="card-network p-5 space-y-4">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="skeleton skeleton--text w-1/2" aria-hidden="true" />
+                  <div className="skeleton w-16 h-5 rounded-full" aria-hidden="true" />
+                </div>
+                <div className="space-y-2">
+                  <div className="skeleton skeleton--text-sm w-3/4" aria-hidden="true" />
+                  <div className="skeleton skeleton--text-sm w-1/2" aria-hidden="true" />
+                </div>
+                <div className="pt-2 flex items-center gap-2">
+                  <div className="skeleton h-8 w-1/2 rounded-lg" aria-hidden="true" />
+                  <div className="skeleton h-8 w-1/2 rounded-lg" aria-hidden="true" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : availability && availability.results.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

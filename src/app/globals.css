@@ -12,6 +12,20 @@
     --success: #00FF00;
     --font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+
+    /* Skeleton Loading Tokens */
+    --skeleton-base: #f1f5f9;
+    --skeleton-speed: 1.8s;
+    --skeleton-radius: 8px;
+    --skeleton-radius-circle: 50%;
+    --skeleton-shimmer: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.6) 25%,
+      rgba(255, 255, 255, 0.9) 50%,
+      rgba(255, 255, 255, 0.6) 75%,
+      transparent 100%
+    );
   }
 
   html {
@@ -30,6 +44,63 @@
 
   code, pre {
     font-family: var(--font-mono);
+  }
+}
+
+/* Skeleton Loading System per DESIGN.md */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  position: relative;
+  background-color: var(--skeleton-base);
+  border-radius: var(--skeleton-radius);
+  border: none;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--skeleton-shimmer);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer var(--skeleton-speed) ease-in-out infinite;
+  pointer-events: none;
+}
+
+.skeleton--circle {
+  border-radius: var(--skeleton-radius-circle);
+  flex-shrink: 0;
+}
+
+.skeleton--text {
+  height: 14px;
+  border-radius: var(--skeleton-radius);
+}
+
+.skeleton--text-sm {
+  height: 11px;
+  border-radius: var(--skeleton-radius);
+}
+
+.skeleton--image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--skeleton-radius);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+    display: none;
   }
 }
 

@@ -156,8 +156,16 @@ export default function LandingPage() {
                       </div>
                     ))
                   ) : (
-                    <div className="py-4 text-center text-xs text-slate-400">
-                      Loading shortage projections...
+                    <div className="space-y-3 py-1" aria-busy="true">
+                      {[1, 2, 3].map((n) => (
+                        <div key={n} className="space-y-1.5 py-1.5 border-b border-slate-50 last:border-b-0">
+                          <div className="flex items-center justify-between">
+                            <div className="skeleton skeleton--text w-1/2" aria-hidden="true" />
+                            <div className="skeleton w-14 h-4 rounded-full" aria-hidden="true" />
+                          </div>
+                          <div className="skeleton skeleton--text-sm w-1/3" aria-hidden="true" />
+                        </div>
+                      ))}
                     </div>
                   )}
                 </div>
